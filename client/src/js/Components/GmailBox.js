@@ -2,7 +2,16 @@ var React=require("react");
 var GmailLeft=require('./GmailLeft');
 var GmailRightBox1=require('./GmailRightBox1');
 var Compose=require('./Compose');
-var ChildComponent2=require('./ChildComponent2.js');
+
+
+var {Router, Route, browserHistory }=require('react-router');
+var About=require('./About');
+var ContactUs=require('./ContactUs');
+//var App=require('./Index');
+
+
+
+
 var globalarray=[];
 var GmailBox = React.createClass({
 
@@ -75,9 +84,6 @@ getInitialState: function() {
          {
           //console.log(JSON.stringify(data));
            this.setState({data:data.labels});
-          // console.log(JSON.stringify(this.state.data));
-           //console.log(data);
-           //<GmailLeft data={this.props.data}/>
          }.bind(this),
          error: function(xhr, status, err) {
            console.error(err.toString());
@@ -87,13 +93,10 @@ getInitialState: function() {
 
 
 
-
-
-
-    AllMessage(info){
+      AllMessage(info){
       var that=this;
-      console.log("in allmsg function");
-      console.log("id"+info.lableId);
+      //console.log("in allmsg function");
+      //console.log("id"+info.lableId);
       var accessToken = localStorage.getItem('gToken');
       $.ajax({
        url: 'https://www.googleapis.com/gmail/v1/users/magardenikita%40gmail.com/messages?labelIds='+info.lableId+'&maxResults=10&key={AIzaSyCHD3ofjLBF5zJlXMEww1obibxXWwLMEuY}',
@@ -106,11 +109,9 @@ getInitialState: function() {
        success: function(data)
        {
            var allmessages = data.messages;
-          // console.log(allmessages);
+
            allmessages.forEach(function(data2) {
-            //console.log(data2.id);
-          //  var id1=data2.id;
-            //console.log(id1);
+
             $.ajax({
 
                 beforeSend: function (request){
@@ -124,30 +125,22 @@ getInitialState: function() {
              success: function(data1)
              {
                console.log(data1);
-              // var array1=$.map(data1, function(el) { return el });
               var array1=Object.keys(data1).map(function(k){return data1[k]});
               var mailDataArr=array1[0].headers;
-             console.log(JSON.stringify(mailDataArr));
 
              var fromArray = mailDataArr.filter(function(item) { return item.name === 'From';});
 
              var subjectArray = mailDataArr.filter(function(item) { return item.name === 'Subject';});
              var dateArray = mailDataArr.filter(function(item) { return item.name === 'Date';});
-            //var  messageArray=mailDataArr.filter(function(item) { return item.name === 'Date';});
-            //var id= mailDataArr.filter(function(item) { return item.name === 'Message-ID';});
-    //console.log("check2");
-            //console.log(id);
-              //console.log("checking aggregated array");
+
              var aggregatedArray=fromArray.concat(subjectArray).concat(dateArray);
              globalarray.push(aggregatedArray);
-             //console.log(JSON.stringify(globalarray));
-             //console.log("before setState");
-             //console.log(this);
+
                that.setState({yourData:globalarray});
              }.bind(this),
              async:false,
              error: function(xhr, status, err) {
-               //console.error(err.toString());
+
              }.bind(this)
              });
 
@@ -170,30 +163,10 @@ getInitialState: function() {
         },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  render: function() {
-
-
-   return(
+render: function() {
+return(
       <div>
-<ChildComponent2/>
+
 <button id="authorize-button" onClick={this.gmailLogin}
   className="btn btn-primary pull-right">Login</button>
     <div className="container-fluid">
@@ -207,10 +180,7 @@ getInitialState: function() {
   		</div>
   	</div>
   </div>
-
-
-
-      </div>
+</div>
 
   );
 }

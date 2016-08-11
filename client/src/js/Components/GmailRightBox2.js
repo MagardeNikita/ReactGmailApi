@@ -15,24 +15,11 @@ var GmailRightBox2= React.createClass({
     this.setState({showModal:false});
   },
   render: function() {
-  /*  getInitialState: function() {
-       return ({data2: []});
-     },*/
-
-      //console.log("In rightb");
- //var array=[];
 var from2=this.props.from1;
 var subject2=this.props.subject;
 var date2=this.props.date;
-  //console.log("rightbox ");
-  //  console.log("data");
-  //console.log(JSON.stringify(from2));
-//this.setState({data:array});
 
-
-
-
-    return (
+return (
     <tr>
       <td>{this.props.from1}</td>
       <td>
@@ -44,11 +31,7 @@ var date2=this.props.date;
       <td>{this.props.date}
       </td>
     </tr>
-
-
-
-
-    );
+     );
   }
 });
 module.exports=GmailRightBox2;
